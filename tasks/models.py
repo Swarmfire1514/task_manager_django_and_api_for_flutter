@@ -18,7 +18,7 @@ class Task(models.Model):
     description = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default = 'pending')
     priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default= 'low')
-    due_date = models.DateField
+    due_date = models.DateTimeField(blank=True,null=True)
     category = models.ForeignKey(Category, related_name='tasks', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
