@@ -26,7 +26,7 @@ def register_view(request):
         messages.success(request, "Account create successfully")
         return redirect('login')
     
-    return render(request, '#template will be added later.')  # no template for frontend yet.
+    return render(request, 'register.html')
 
 #View for login
 def login_view(request):
@@ -42,7 +42,7 @@ def login_view(request):
         else:
             messages.error(request, "Invalid credentials")
             
-    return redirect(request, 'template for login') # needed to change after template creation.
+    return render(request, 'login.html') 
 
 #View for logout handling.
 def logout_view(request):
@@ -51,7 +51,14 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
-    return render(request, 'template',{
+    return render(request, 'profile.html',{
         'user': request.user,
         'profile': request.user.profile
     })
+    
+#logged out and logged in state handling.
+def home_redirect(request):
+    if request.user.is_authenticated:
+        return redirect('profile') #change to task later
+    else:
+        return redirect('login')
