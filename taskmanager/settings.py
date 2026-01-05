@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'category',
     'tasks',
     'activityLog',
-    'rest_framework'
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
