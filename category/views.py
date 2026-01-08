@@ -7,7 +7,7 @@ from .forms import CategoryForm
 @login_required
 def category_list(request):
     categories = Category.objects.filter(user=request.user)
-    return render (request, 'cat template', {"categories":categories})
+    return render (request, 'category.html', {"categories":categories})
 
 @login_required
 def category_create(request):

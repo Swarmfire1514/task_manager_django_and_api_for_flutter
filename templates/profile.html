@@ -1,9 +1,10 @@
-<h2>Welcome {{ user.username }}</h2>
-<p>Email: {{ user.email }}</p>
-<p>Role: {{ profile.role }}</p>
+{% extends "base/base.html" %}
+{% block content %}
+    <h2>Welcome {{ user.username }}</h2>
+    <p>Email: {{ user.email }}</p>
+    <p>Role: {{ profile.role }}</p>
 
-<hr>
+    <hr>
 
-<a href="{% url 'register' %}">Register Page</a> |
-<a href="{% url 'login' %}">Login Page</a> |
-<a href="{% url 'logout' %}">Logout</a>
+    <a href="{% url 'logout' %}">Logout</a>
+{% endblock content %}

@@ -7,7 +7,7 @@ from .forms import TaskForm
 @login_required
 def task_list(request):
     tasks = Task.objects.filter(category__user=request.user)
-    return render(request, ".html",{"tasks":tasks})
+    return render(request, "task.html",{"tasks":tasks})
 
 @login_required
 def task_create(request):

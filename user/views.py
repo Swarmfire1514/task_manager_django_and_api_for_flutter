@@ -38,7 +38,7 @@ def login_view(request):
         
         if user:
             login(request, user)
-            return redirect ('profile')
+            return redirect ('home')
         else:
             messages.error(request, "Invalid credentials")
             
@@ -57,8 +57,15 @@ def profile_view(request):
     })
     
 #logged out and logged in state handling.
+#def home_redirect(request):
+#    if request.user.is_authenticated:
+#        return render(request, 'home.html')
+#    else:
+#        return redirect('login')
+
+#better way
+@login_required(login_url='login')
 def home_redirect(request):
-    if request.user.is_authenticated:
-        return redirect('profile') #change to task later
-    else:
-        return redirect('login')
+    return render(request, 'home.html',{
+        'user': request.user,
+    })
