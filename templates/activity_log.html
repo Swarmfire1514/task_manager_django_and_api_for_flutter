@@ -1,0 +1,53 @@
+{% extends "base/base.html" %}
+{% block content %}
+<h4 class="mb-4">Activity Log</h4>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>SN</th>
+                <th>Activities</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+                <tr>
+                    <td>{{forloop.counter0|add:log.start_index}}</td>
+                    <td>{{log.user.username}} has {{log.action}} the task with title:{{log.task.title}} at {{log.timestamp|date:"Y-m-d H:i"}}.</td>
+                </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No logs available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if tasks.has_previous %}
+                <li class="page-item">
+                    <a href="?page={{logs.previous_page_number}}" class="page-link">Previous</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+            {% endif %}
+
+            <li class="page-item active pt-2 mx-1 bg-light">
+                <span class="page_link fw-bold">
+                    Page {{logs.number}} of {{logs.paginator.num_pages}}
+                </span>
+            </li>
+
+            {% if logs.has_next %}
+                <li class="page-item">
+                    <a href="?page={{logs.next_page_number}}" class="page-link">Next</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock content %}

@@ -1,0 +1,12 @@
+{% extends "base/base.html" %}
+{% block content %}
+<h4 class="mb-4">Category Form</h4>
+
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="{% url "category_list" %}" class="btn-secondary">Cancel</a>
+</form>
+{% endblock content %}
