@@ -4,6 +4,6 @@ from .models import ActivityLog
 # Register your models here.
 @admin.register(ActivityLog)
 class ActivityLogAdmin(admin.ModelAdmin):
-    list_display = ('id','user','task','task_title','action','timestamp')
+    list_display = ('id','user','task','task_title','category','category_title','action','timestamp')
     search_fields = ('user__username',)
-    list_filter = ('user','task')
+    list_filter = ('user','task','category')
