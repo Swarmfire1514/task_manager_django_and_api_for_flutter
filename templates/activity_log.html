@@ -11,8 +11,8 @@
         <tbody>
             {% for log in logs %}
                 <tr>
-                    <td>{{forloop.counter0|add:log.start_index}}</td>
-                    <td>{{log.user.username}} has {{log.action}} the task with title:{{log.task.title}} at {{log.timestamp|date:"Y-m-d H:i"}}.</td>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{log.user.username}} has {{log.action}} the {% if log.task_title %}task{% else %}category{% endif %} with title:{% if log.task_title %}{{log.task_title}}{% else %}{{log.category_title}}{% endif %} at {{log.timestamp|date:"Y-m-d H:i"}}.</td>
                 </tr>
             {% empty %}
             <tr>
@@ -23,7 +23,7 @@
     </table>
     <nav>
         <ul class="pagination justify-content-center">
-            {% if tasks.has_previous %}
+            {% if logs.has_previous %}
                 <li class="page-item">
                     <a href="?page={{logs.previous_page_number}}" class="page-link">Previous</a>
                 </li>

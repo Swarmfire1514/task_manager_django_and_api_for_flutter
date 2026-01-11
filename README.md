@@ -90,3 +90,34 @@ Future Improvements:
 * Add email notifications for upcoming tasks
 * Implement search and filtering for tasks
 * Add a dashboard showing task statistics
+
+
+# Development Logs #
+
+Jan 10, 2026
+# Progess
+- Setup Django backend and models (User, Category, Task, ActivityLog)
+- Implemented Activity log signals through tasks app
+- Created UI (containing pages: login, register, base template, home, task, categories, profile, Activity Logs)
+- Improved UI for the website
+- Implemented login, logout and register features
+- Connection of the django backend and the website UI
+
+# Features
+- User Authentication
+- Crud Operations for Categories and tasks with use of forms
+- Activity log for tasks using post_save and post_delete
+
+Jan 11,2025
+# Progress
+- Improved views related to signals
+- Added signals for category too so that its updates are also shown in activity log
+- Improved codes for UI data rendering
+
+# Features
+- Added activity log according showing whether task or category is worked on using if else, which uses the same view and model.
+- Used Django signals pre_save in the task signals with instance._old_status variable to detect completed tasks.
+- Task completion toggles added between pending and completed which is also logged.
+- Added the admin panel acess for new super user
+- When logging in also now the profile is created if not created.
+- added logout button in the navbar for easy access.

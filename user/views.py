@@ -37,8 +37,9 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         
         if user:
+            Profile.objects.get_or_create(user=user)    
             login(request, user)
-            return redirect ('home')
+            return redirect('home')
         else:
             messages.error(request, "Invalid credentials")
             

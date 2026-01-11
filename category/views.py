@@ -28,8 +28,8 @@ def category_create(request):
     return render(request,"create/category_form.html", {"form":form})
 
 @login_required
-def category_update(request, pk):
-    category = get_object_or_404(Category, pk=pk, user=request.user)
+def category_update(request, id):
+    category = get_object_or_404(Category, pk=id, user=request.user)
     form = CategoryForm(request.POST or None, instance=category)
     if form.is_valid():
         form.save()
@@ -37,7 +37,7 @@ def category_update(request, pk):
     return render(request, "create/category_form.html",{"form":form})
 
 @login_required
-def category_delete(request, pk):
-    category = get_object_or_404(Category, pk=pk, user=request.user)
+def category_delete(request, id):
+    category = get_object_or_404(Category, pk=id, user=request.user)
     category.delete()
     return redirect("category_list")

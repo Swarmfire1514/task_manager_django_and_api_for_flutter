@@ -21,8 +21,8 @@
                     <td>{{ category.created_at|date:"Y-m-d H:i" }}</td>
                     <td>{{ category.updated_at|date:"Y-m-d H:i" }}</td>
                     <td>
-                        <a href="{% url "category_update" categories.id %}" class="btn btn-sm btn-warning">Edit</a>
-                        <a href="{% url "category_delete" categories.id %}" class="btn btn-trash btn-danger">Edit</a>
+                        <a href="{% url "category_update" category.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url "category_delete" category.id %}" class="btn btn-trash btn-danger">Delete</a>
                     </td>
                 </tr>
             {% empty %}

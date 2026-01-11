@@ -8,9 +8,10 @@
                 <th>SN</th>
                 <th>Title</th>
                 <th>Description</th>
+                <th>User</th>
                 <th>Category</th>
-                <th>Status</th>
                 <th>Priority</th>
+                <th>Status</th>
                 <th>Due Date</th>
                 <th>Actions</th>
             </tr>
@@ -21,13 +22,14 @@
                     <td>{{forloop.counter}}</td>
                     <td>{{task.title}}</td>
                     <td>{{task.description}}</td>
+                    <td>{{task.user.username}}</td>
                     <td>{{task.category}}</td>
-                    <td>{{task.status}}</td>
                     <td>{{task.priority}}</td>
-                    <td>{{task.due_date}}</td>
+                    <td><a href="{% url "task_complete" task.id %}" class="btn btn-sm {% if task.status == "completed" %}btn-primary{% else %}btn-warning{% endif %}">{{task.status}}</a></td>
+                    <td>{{task.due_date|date:"Y-m-d H:i"}}</td>
                     <td>
-                        <a href="{% url "task_update" tasks.id %}" class="btn btn-sm btn-warning">Edit</a>
-                        <a href="{% url "task_delete" tasks.id %}" class="btn btn-trash btn-danger">Edit</a>
+                        <a href="{% url "task_update" task.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url "task_delete" task.id %}" class="btn btn-trash btn-danger">Delete</a>
                     </td>
                 </tr>
             {% empty %}

@@ -28,8 +28,8 @@ def task_create(request):
 
 
 @login_required
-def task_update(request, pk):
-    task = get_object_or_404(Task, pk=pk, category__user=request.user)
+def task_update(request, id):
+    task = get_object_or_404(Task, pk=id, category__user=request.user)
     if request.method == "POST":
         form = TaskForm(request.POST, instance=task, user=request.user)
         if form.is_valid():
@@ -41,14 +41,17 @@ def task_update(request, pk):
     return render(request,"create/task_form.html",{"form":form})
 
 @login_required
-def task_complete(request,pk):
-    task = get_object_or_404(Task, pk=pk, category__user=request.user)
-    task.status = "completed"
+def task_complete(request,id):
+    task = get_object_or_404(Task, pk=id, category__user=request.user)
+    if task.status == "completed":
+        task.status = "pending"
+    else:
+        task.status = "completed"
     task.save()
     return redirect("task_list")
 
 @login_required
-def task_delete(request,pk):
-    task = get_object_or_404(Task, pk = pk, category__user=request.user)
+def task_delete(request,id):
+    task = get_object_or_404(Task, pk = id, category__user=request.user)
     task.delete()
     return redirect("task_list")
