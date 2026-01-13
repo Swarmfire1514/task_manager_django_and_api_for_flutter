@@ -7,7 +7,11 @@ from .forms import TaskForm
 # Create your views here.
 @login_required
 def task_list(request):
-    tasks_qs = Task.objects.filter(category__user=request.user)
+    #get tasks based on user role
+    if request.user.profile.role == "admin":
+        tasks_qs = Task.objects.all()
+    else:
+        tasks_qs = Task.objects.filter(category__user=request.user)
     
     paginator = Paginator(tasks_qs, 10)
     page_number = request.GET.get('page')
@@ -22,14 +26,18 @@ def task_create(request):
             form.save()
             return redirect("task_list")
     else:
-        form = TaskForm(user=request.user)  # ensures form exists for GET
+        form = TaskForm(user=request.user)
 
     return render(request, "create/task_form.html", {"form": form})
 
 
 @login_required
 def task_update(request, id):
-    task = get_object_or_404(Task, pk=id, category__user=request.user)
+    if request.user.profile.role == "admin":
+        task = get_object_or_404(Task, pk =id)
+    else:
+        task = get_object_or_404(Task, pk=id, category__user=request.user)
+    
     if request.method == "POST":
         form = TaskForm(request.POST, instance=task, user=request.user)
         if form.is_valid():
@@ -42,7 +50,11 @@ def task_update(request, id):
 
 @login_required
 def task_complete(request,id):
-    task = get_object_or_404(Task, pk=id, category__user=request.user)
+    if request.user.profile.role == "admin":
+        task = get_object_or_404(Task, pk =id)
+    else:
+        task = get_object_or_404(Task, pk=id, category__user=request.user)
+        
     if task.status == "completed":
         task.status = "pending"
     else:
@@ -52,6 +64,9 @@ def task_complete(request,id):
 
 @login_required
 def task_delete(request,id):
-    task = get_object_or_404(Task, pk = id, category__user=request.user)
+    if request.user.profile.role == "admin":
+        task = get_object_or_404(Task, pk =id)
+    else:
+        task = get_object_or_404(Task, pk=id, category__user=request.user)
     task.delete()
     return redirect("task_list")

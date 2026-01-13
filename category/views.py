@@ -7,7 +7,10 @@ from .forms import CategoryForm
 # Create your views here.
 @login_required
 def category_list(request):
-    categories_qs= Category.objects.filter(user=request.user)
+    if request.user.profile.role == "admin":
+        categories_qs= Category.objects.all()
+    else:
+        categories_qs= Category.objects.filter(user=request.user)
     
     paginator = Paginator(categories_qs, 10)
     page_number = request.GET.get('page')
@@ -29,7 +32,10 @@ def category_create(request):
 
 @login_required
 def category_update(request, id):
-    category = get_object_or_404(Category, pk=id, user=request.user)
+    if request.user.profile.role == "admin":
+        category = get_object_or_404(Category, pk=id)
+    else:
+        category = get_object_or_404(Category, pk=id, user=request.user)
     form = CategoryForm(request.POST or None, instance=category)
     if form.is_valid():
         form.save()
@@ -38,6 +44,9 @@ def category_update(request, id):
 
 @login_required
 def category_delete(request, id):
-    category = get_object_or_404(Category, pk=id, user=request.user)
+    if request.user.profile.role == "admin":
+        category = get_object_or_404(Category, pk=id)
+    else:
+        category = get_object_or_404(Category, pk=id, user=request.user)
     category.delete()
     return redirect("category_list")

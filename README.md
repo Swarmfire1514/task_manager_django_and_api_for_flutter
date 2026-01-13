@@ -121,3 +121,55 @@ Jan 11,2025
 - Added the admin panel acess for new super user
 - When logging in also now the profile is created if not created.
 - added logout button in the navbar for easy access.
+
+Jan 12,2026
+# Progress
+- Added role based access to tasks and categories
+
+During this I found out abouta new concept for me, Permissions
+- Permissions are cleaner, safer and more scalable than roles.
+- These doesn't depend on the developer create roles attribute in the profile, rather it works with djando admin and is also an industry standard.
+
+* Will be continuing it tomorrow.
+
+Jan 12
+# Progess
+- Implemented role-based access logic for tasks and categories.
+
+During this, I explored a new concept: Django Permissions.
+
+* What I learned:
+- SEvery Django model automatically gets:
+
+add_model
+change_model
+delete_model
+view_model
+
+So the Task model, It automatically creates:
+tasks.add_task
+tasks.change_task
+tasks.delete_task
+tasks.view_task
+so you will assign these permissions to users or groups, rather than via custom role strings.
+
+* How permission works:
+- Permissions are assigned to users or groups, not via custom role strings.
+- Setup is usually done through the Django shell:
+   Create groups (Admin, User)
+   Use ContentType to link permissions to models
+   Assign full permissions to Admin
+   Assign limited permissions to User
+
+* Key Realization:
+- Permissions only matter if they are enforced in views.
+- Using @permission_required would prevent users from editing/deleting their own tasks.
+- Since my current logic already correctly restricts users to their own data, adding permissions now would add complexity without functional benefit.
+
+* Decision:
+-  For now, I am keeping my current ownership-based access control.
+- I will revisit permissions when multi-role or enterprise-level access is required.
+
+* Next Steps:
+- Create API
+- Create flutter app integrating the APIS.
