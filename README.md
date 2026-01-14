@@ -178,6 +178,8 @@ Jan 14, 2026
 # Progress
 - Implemented serializers for user management, including ProfileSerializer and RegisterSerializer.
 - Created REST API endpoints for authentication and user profile handling.
+- Gained a deeper understanding of JWT authentication, including access and refresh tokens.
+- Tested all API endpoints using Postman and confirmed they are functioning correctly.
 
 # Process
 - Configured serializers for user registration and profile data.
@@ -186,3 +188,4 @@ Jan 14, 2026
    * User login (TokenObtainPairView)
    * Access token refresh (TokenRefreshView)
 - Implemented secure logout by blacklisting refresh tokens using SimpleJWT’s token blacklist mechanism.
+- Verified that all endpoints respond as intended.
