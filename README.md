@@ -132,7 +132,7 @@ During this I found out abouta new concept for me, Permissions
 
 * Will be continuing it tomorrow.
 
-Jan 12
+Jan 13,2026
 # Progess
 - Implemented role-based access logic for tasks and categories.
 
@@ -147,10 +147,10 @@ delete_model
 view_model
 
 So the Task model, It automatically creates:
-tasks.add_task
-tasks.change_task
-tasks.delete_task
-tasks.view_task
+- tasks.add_task
+- tasks.change_task
+- tasks.delete_task
+- tasks.view_task
 so you will assign these permissions to users or groups, rather than via custom role strings.
 
 * How permission works:
@@ -173,3 +173,16 @@ so you will assign these permissions to users or groups, rather than via custom 
 * Next Steps:
 - Create API
 - Create flutter app integrating the APIS.
+
+Jan 14, 2026
+# Progress
+- Implemented serializers for user management, including ProfileSerializer and RegisterSerializer.
+- Created REST API endpoints for authentication and user profile handling.
+
+# Process
+- Configured serializers for user registration and profile data.
+- Developed API views for Register, Profile, and Logout functionalities.
+- Set up URL endpoints for all views, including authentication routes for:
+   * User login (TokenObtainPairView)
+   * Access token refresh (TokenRefreshView)
+- Implemented secure logout by blacklisting refresh tokens using SimpleJWT’s token blacklist mechanism.
