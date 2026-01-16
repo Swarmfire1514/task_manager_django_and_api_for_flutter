@@ -24,5 +24,5 @@ urlpatterns = [
     path('auth/',include('user.urls')),
     path('tasks/', include('tasks.urls')),
     path('categories/', include('category.urls')),
-    path('activity_logs', include("activityLog.urls"))
+    path('activity_logs/', include("activityLog.urls"))
 ]

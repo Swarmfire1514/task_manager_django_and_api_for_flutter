@@ -189,3 +189,24 @@ Jan 14, 2026
    * Access token refresh (TokenRefreshView)
 - Implemented secure logout by blacklisting refresh tokens using SimpleJWT’s token blacklist mechanism.
 - Verified that all endpoints respond as intended.
+
+Jan 15, 2026
+# Progress
+- Created REST API endpoints for Tasks, Categories CRUD operations and Activity logs.
+- Created documentation of the Postman API Collection after testing.
+
+# Process
+- Implementation followed a pattern similar to existing user APIs.
+- Created serializers for Tasks, Categories, and Activity Logs.
+- For task updates, used PATCH instead of PUT, allowing partial updates (e.g., status changes) without requiring a separate endpoint, leveraging the existing TaskDetail API.
+- Verified all endpoints responded correctly and consistently.
+- Ensured that only authenticated users can access their data, with role-based access control implemented for admins and regular users.
+
+# Key learrnings
+- Django REST Framework (DRF) operates differently from standard Django views; for example, PATCH requests do not have a direct equivalent in typical Django views, requiring workarounds for partial updates.
+- Most issues encountered were due to syntax errors (e.g., missing commas), missing trailing slashes in URLs, or incorrect imports.
+
+API Documentation Link:
+(https://documenter.getpostman.com/view/44780520/2sBXVhDqmY)
+
+ONTO Flutter......

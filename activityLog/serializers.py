@@ -1,15 +1,14 @@
 from rest_framework import serializers
 from .models import ActivityLog
-from rest_framework.views import APIView
 
-class ActivityLogSerialier(APIView):
+class ActivityLogSerialier(serializers.ModelSerializer):
     username = serializers.CharField(source="user.username", read_only=True)
     
     class Meta:
         model = ActivityLog
         fields = [
             "id",
-            "user",
+            "username",
             "action",
             "task",
             "task_title",

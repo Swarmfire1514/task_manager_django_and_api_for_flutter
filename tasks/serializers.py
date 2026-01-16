@@ -14,7 +14,7 @@ class TaskSerializer(serializers.ModelSerializer):
             "priority",
             "due_date",
             "category",
-            "category_name"
+            "category_name",
             "created_at",
             "updated_at",
         ]

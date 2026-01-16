@@ -41,9 +41,9 @@ class TaskListCreateAPI(APIView):
 class TaskDetailAPI(APIView):
     permission_classes = [IsAuthenticated]
     
-    def put(self, request, id):
+    def patch(self, request, id):
         task = getTaskbyID(request.user, id)
-        serializer = TaskSerializer(task, data=request.data)
+        serializer = TaskSerializer(task, data=request.data,partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -51,5 +51,5 @@ class TaskDetailAPI(APIView):
     
     def delete(self, request, id):
         task = getTaskbyID(request.user, id)
-        task.delete
+        task.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

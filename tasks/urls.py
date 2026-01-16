@@ -12,5 +12,5 @@ urlpatterns = [
     
     # API urls
     path("api/", TaskListCreateAPI.as_view(), name="task-list-create-api"),
-    path("api/<int:id>", TaskDetailAPI.as_view(), name="task-update-delete-api"),
+    path("api/<int:id>/", TaskDetailAPI.as_view(), name="task-update-delete-api"),
 ]
