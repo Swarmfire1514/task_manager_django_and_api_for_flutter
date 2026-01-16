@@ -1,4 +1,4 @@
-Django Task Manager
+# Django Task Manager
 
 Description:
 A Django-based task manager app that allows users to manage categories and tasks, track task status and priority, and maintain an activity log of actions. It supports role-based access with 'user' and 'admin' roles.
@@ -41,17 +41,17 @@ ActivityLog:
 Installation:
 
 1. Clone the repository:
-   git clone [https://github.com/username/repo-name.git](https://github.com/username/repo-name.git)
-   cd repo-name
+   git clone [https://github.com/Swarmfire1514/task_manager_django_and_api_for_flutter](https://github.com/Swarmfire1514/task_manager_django_and_api_for_flutter)
+   cd task_manager_django_and_api_for_flutter or whatever you like.
 
 2. Create and activate a virtual environment:
    python -m venv venv
 
-# Windows
+* Windows
 
 venv\Scripts\activate
 
-# macOS/Linux
+* macOS/Linux
 
 source venv/bin/activate
 
@@ -69,7 +69,7 @@ source venv/bin/activate
    python manage.py runserver
 
 * Access the app at [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
-* Admin panel: [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
+* Admin panel: [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) while running locally
 
 Usage:
 
