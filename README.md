@@ -40,7 +40,7 @@ ActivityLog:
 
 Linked below is the Posrman API documentation for this project.
 API Documentation Link:
-(https://documenter.getpostman.com/view/44780520/2sBXVhDqmY)
+[https://documenter.getpostman.com/view/44780520/2sBXVhDqmY](https://documenter.getpostman.com/view/44780520/2sBXVhDqmY)
 
 Installation:
 
@@ -212,7 +212,7 @@ Jan 15, 2026
 - Most issues encountered were due to syntax errors (e.g., missing commas), missing trailing slashes in URLs, or incorrect imports.
 
 API Documentation Link:
-(https://documenter.getpostman.com/view/44780520/2sBXVhDqmY)
+[https://documenter.getpostman.com/view/44780520/2sBXVhDqmY](https://documenter.getpostman.com/view/44780520/2sBXVhDqmY)
 
 ONTO Flutter......
 
