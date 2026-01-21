@@ -258,3 +258,37 @@ In this project, a hybrid approach has been used, allowing exploration of both m
 - The website version is implemented using Django template-based rendering
 - The Flutter mobile application consumes APIs built using Django REST Framework
 This approach has helped me understand the strengths, limitations, and real-world use cases of both template-based rendering and API-driven development.
+
+Jan 17, 2026
+# Progress
+- Created a flutter project inside the django project.
+- Set up basic flutter resources in the local device.
+
+Jan 18, 2026
+# Progress
+- Implemented Login and Register features.
+- Verified that authentication works on a real Android device.
+
+# Process:
+- Run the Django Server with:
+python manage.py runserver 0.0.0.0:8000
+   * This allows Android devices on the same Wi-Fi to access he API.
+- In android/app/src/AndroidManifest.xml, inside <application> block, add
+android:usesCleartextTraffic="true"
+This ensures Flutter allows HTTP requests to the API.
+- Test the app on a real device to verify functionality.
+
+Jan 19 - 20, 2026
+No progress due to college-related commitments.
+
+Jan 21, 2026
+# Progress:
+- Implemented persistent login: the app remembers the login state, so logged-in users are directly sent to the Home screen even after closing and reopening the app.
+ Added a Bottom Navigation Bar to navigate between Home, Tasks, Categories, Activity Log, and Profile screens.
+ 
+# Process:
+- Stored access and refresh tokens in SharedPreferences and set isLoggedIn = true when login succeeds.
+- On app start, the isLoggedIn flag is checked:
+   * If true, the user is sent to HomeScreen.
+   * If false, the user is sent to LoginScreen.
+- Used Flutter’s BottomNavigationBar widget to allow seamless navigation between multiple pages.

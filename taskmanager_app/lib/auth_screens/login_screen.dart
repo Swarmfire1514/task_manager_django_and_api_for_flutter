@@ -14,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
   bool _isLoading = false;
@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Uri.parse(loginUrl),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
-          "email": _emailController.text.trim(),
+          "username": _usernameController.text.trim(),
           "password": _passwordController.text.trim(),
         }),
       );
@@ -42,6 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('access', data['access']);
         await prefs.setString('refresh', data['refresh']);
+        await prefs.setBool("isLoggedIn", true);
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -95,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 40),
               TextField(
-                controller: _emailController,
+                controller: _usernameController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: "Email",
@@ -144,7 +145,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: _isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text("Login", style: TextStyle(fontSize: 18)),
+                      : const Text(
+                          "Login",
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
                 ),
               ),
               const SizedBox(height: 20),
