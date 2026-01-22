@@ -6,6 +6,7 @@ from rest_framework import status
 from .serializers import TaskSerializer
 from django.shortcuts import get_object_or_404
 from category.models import Category
+from rest_framework.pagination import PageNumberPagination
 
 def isAdmin(user):
     return hasattr(user, "profile") and user.profile.role == "admin"
@@ -24,8 +25,13 @@ class TaskListCreateAPI(APIView):
             tasks = Task.objects.all()
         else:
             tasks = Task.objects.filter(category__user = request.user)
-        serializer = TaskSerializer(tasks, many=True)
-        return Response(serializer.data)
+            
+        paginator = PageNumberPagination()
+        paginator.page_size = 10
+        result_page = paginator.paginate_queryset(tasks,request)
+        
+        serializer = TaskSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
         
     def post(self, request):
         category_id = request.data.get("category")

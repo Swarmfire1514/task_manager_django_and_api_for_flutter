@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from .serializers import CategorySerializer
+from rest_framework.pagination import PageNumberPagination
 
 def isAdmin(user):
     return hasattr(user, "profile") and user.profile.role == "admin"
@@ -23,9 +24,13 @@ class CategoryListCreateAPI(APIView):
             categories = Category.objects.all()
         else:
             categories = Category.objects.filter(user=request.user)
+            
+        paginator = PageNumberPagination()
+        paginator.page_size=10
+        result_page = paginator.paginate_queryset(categories, request)
         
-        serializer = CategorySerializer(categories, many = True)
-        return Response(serializer.data)
+        serializer = CategorySerializer(result_page, many = True)
+        return paginator.get_paginated_response(serializer.data)
     
     def post(self,request):
         serializer = CategorySerializer(data=request.data)

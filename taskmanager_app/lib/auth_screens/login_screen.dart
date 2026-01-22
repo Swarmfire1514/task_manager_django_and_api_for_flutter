@@ -44,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
         await prefs.setString('refresh', data['refresh']);
         await prefs.setBool("isLoggedIn", true);
 
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("Login Successful"),
@@ -55,6 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
           MaterialPageRoute(builder: (context) => const HomeScreen()),
         );
       } else {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Login failed"), backgroundColor: Colors.red),
         );

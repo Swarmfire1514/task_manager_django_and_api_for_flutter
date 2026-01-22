@@ -37,6 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 201 || response.statusCode == 200) {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(data["message"] ?? "Registered successfully"),
@@ -45,6 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         );
         Navigator.pop(context); // Go back to login
       } else {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(data["message"] ?? "Registration failed"),

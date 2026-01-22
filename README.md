@@ -292,3 +292,22 @@ Jan 21, 2026
    * If true, the user is sent to HomeScreen.
    * If false, the user is sent to LoginScreen.
 - Used Flutter’s BottomNavigationBar widget to allow seamless navigation between multiple pages.
+
+Jan 22,2026
+# Progress
+- Implemented the Profile page and integrated the GET API for fetching tasks.
+- Updated Tasks, Categories, and Activity Log screens to properly handle paginated API responses.
+- Improved data loading and rendering logic in the Flutter UI to support incremental task loading.
+
+# Process:
+- Implemented DRF’s PageNumberPagination on the backend to return task data in fixed-size chunks (10 items per page).
+- Designed Task and PaginatedTasks model classes in Flutter to accurately map paginated API responses (count, next, previous, results).
+- Updated API service methods in Flutter to request data using page query parameters.
+- Implemented UI logic to append new data to existing lists instead of replacing them, ensuring a smooth user experience.
+- Ensured proper error handling and state management during API calls to prevent crashes and incomplete UI states.
+
+# Outcome
+- Backend now supports scalable task retrieval using pagination.
+- Flutter application efficiently handles large datasets without performance issues.
+- Improved separation of concerns between API handling, data models, and UI rendering.
+- Enhanced real-world understanding of client-server communication and paginated REST API integration.
