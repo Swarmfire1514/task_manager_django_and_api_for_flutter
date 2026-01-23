@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taskmanager_app/auth_screens/login_screen.dart';
 import 'package:taskmanager_app/home_screen.dart';
+import 'package:taskmanager_app/utils/classes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,6 +11,10 @@ Future<void> main() async {
 
   final prefs = await SharedPreferences.getInstance();
   final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+  if (isLoggedIn) {
+    await AuthService.loadToken(); // 🔑 Load token into memory
+  }
 
   runApp(MyApp(isLoggedIn: isLoggedIn));
 }

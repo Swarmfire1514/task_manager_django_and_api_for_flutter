@@ -11,13 +11,13 @@ def isAdmin(user):
     return hasattr(user, "profile") and user.profile.role == "admin"
 
 class ActivityLogListAPI(APIView):
-    permission_class = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     
     def get(self, request):
         if isAdmin(request.user):
-            activitylog = ActivityLog.objects.all()
+            activitylog = ActivityLog.objects.all().order_by('-timestamp')
         else:
-            activitylog = ActivityLog.objects.filter(user=request.user)
+            activitylog = ActivityLog.objects.filter(user=request.user).order_by('-timestamp')
         
         paginator = PageNumberPagination()
         paginator.page_size = 10

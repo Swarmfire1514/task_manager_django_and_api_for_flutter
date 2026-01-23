@@ -1,8 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:taskmanager_app/utils/classes.dart'; // For AuthService
 
 class ProfilePageWidget extends StatefulWidget {
   const ProfilePageWidget({super.key});
@@ -17,22 +17,24 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
   String? username;
   String? role;
 
-  final String profieUrl = dotenv.env['PROFILE_URL']!;
+  final String profileUrl = dotenv.env['PROFILE_URL']!;
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     getProfile();
   }
 
   Future<void> getProfile() async {
-    setState(() {
-      _isLoading = true;
-    });
+    setState(() => _isLoading = true);
+
     try {
       final response = await http.get(
-        Uri.parse(profieUrl),
-        headers: {"Content-Type": "application/json"},
+        Uri.parse(profileUrl),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${AuthService.accessToken}",
+        },
       );
 
       if (response.statusCode == 200) {
@@ -40,46 +42,60 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
         setState(() {
           username = data['username'];
           role = data['role'];
-          _isLoading = false;
         });
+      } else if (response.statusCode == 401) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Unauthorized! Please login again."),
+            backgroundColor: Colors.red,
+          ),
+        );
       } else {
-        throw Exception('Failed to load profile');
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Failed to load profile: ${response.statusCode}"),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Something went Wrong"),
+        const SnackBar(
+          content: Text("Something went wrong!"),
           backgroundColor: Colors.red,
         ),
       );
     }
+
+    if (mounted) setState(() => _isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsetsGeometry.all(16),
-        child: _isLoading
-            ? CircularProgressIndicator()
-            : Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Username: ${username ?? '-'}",
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    "Role: ${role ?? '-'}",
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ],
-              ),
+        padding: const EdgeInsets.all(16), // fixed
+        child: Center(
+          child: _isLoading
+              ? const CircularProgressIndicator()
+              : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Username: ${username ?? '-'}",
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      "Role: ${role ?? '-'}",
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+        ),
       ),
     );
   }
