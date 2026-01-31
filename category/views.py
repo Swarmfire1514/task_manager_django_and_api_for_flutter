@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from .models import Category
 from .forms import CategoryForm
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 @login_required
@@ -43,6 +44,7 @@ def category_update(request, id):
     return render(request, "create/category_form.html",{"form":form})
 
 @login_required
+@require_POST
 def category_delete(request, id):
     if request.user.profile.role == "admin":
         category = get_object_or_404(Category, pk=id)

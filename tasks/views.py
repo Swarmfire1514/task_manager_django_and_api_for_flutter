@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from .models import Task
 from .forms import TaskForm
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 @login_required
@@ -63,6 +64,7 @@ def task_complete(request,id):
     return redirect("task_list")
 
 @login_required
+@require_POST
 def task_delete(request,id):
     if request.user.profile.role == "admin":
         task = get_object_or_404(Task, pk =id)

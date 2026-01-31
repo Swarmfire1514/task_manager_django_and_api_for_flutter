@@ -22,7 +22,14 @@
                     <td>{{ category.updated_at|date:"Y-m-d H:i" }}</td>
                     <td>
                         <a href="{% url "category_update" category.id %}" class="btn btn-sm btn-warning">Edit</a>
-                        <a href="{% url "category_delete" category.id %}" class="btn btn-trash btn-danger">Delete</a>
+                        <button
+                            type="button"
+                            class="btn btn-danger btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            data-id="{{ category.id }}">
+                                Delete
+                        </button>
                     </td>
                 </tr>
             {% empty %}
@@ -61,6 +68,37 @@
             {% endif %}                
         </ul>
     </nav>
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Confirm Delete</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this category?</p>
+                    <small class="text-muted">This action cannot be undone.</small>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <form method="post" id="deleteForm">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            Yes, Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <a href="{% url "category_create" %}" class="btn btn-primary rounded-circle shadow fab-btn" title="Add Category">
         <i class="bi bi-plus"></i>
     </a>
