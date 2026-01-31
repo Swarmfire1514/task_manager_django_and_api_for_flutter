@@ -5,6 +5,9 @@ from activityLog.models import ActivityLog
 
 @receiver(pre_save, sender=Task)
 def task_pre_save(sender, instance, **kwargs):
+    if kwargs.get("raw", False):
+        return
+    
     if instance.pk:
         #Fetch current DB instance before updating
         old_instance = Task.objects.get(pk=instance.pk)
@@ -14,6 +17,9 @@ def task_pre_save(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Task)
 def create_or_update_task_log(sender,instance,created,**kwargs):
+    if kwargs.get("raw", False):
+        return
+    
     user= instance.category.user
     
     if created:

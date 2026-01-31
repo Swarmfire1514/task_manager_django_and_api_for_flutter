@@ -5,8 +5,10 @@ from activityLog.models import ActivityLog
 
 @receiver(post_save, sender=Category)
 def create_or_update_category_log(sender, instance, created, **kwargs):
-    user = instance.user
+    if kwargs.get("raw", False):
+        return
     
+    user = instance.user
     
     if created:
         action="created"

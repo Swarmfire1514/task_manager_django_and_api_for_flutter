@@ -29,7 +29,7 @@ def task_create(request):
     else:
         form = TaskForm(user=request.user)
 
-    return render(request, "create/task_form.html", {"form": form})
+    return render(request, "create/form.html", {"form": form, "title": "Task"})
 
 
 @login_required
@@ -47,7 +47,7 @@ def task_update(request, id):
     else:
         form = TaskForm(instance=task, user=request.user)
 
-    return render(request,"create/task_form.html",{"form":form})
+    return render(request,"create/form.html",{"form":form, "title": "Task"})
 
 @login_required
 def task_complete(request,id):

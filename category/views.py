@@ -29,7 +29,7 @@ def category_create(request):
             return redirect("category_list")
     else:
         form = CategoryForm()
-    return render(request,"create/category_form.html", {"form":form})
+    return render(request,"create/form.html", {"form":form, "title": "Category"})
 
 @login_required
 def category_update(request, id):
@@ -41,7 +41,7 @@ def category_update(request, id):
     if form.is_valid():
         form.save()
         return redirect("category_list")
-    return render(request, "create/category_form.html",{"form":form})
+    return render(request, "create/form.html",{"form":form, "title": "Category"})
 
 @login_required
 @require_POST

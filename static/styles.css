@@ -1,11 +1,18 @@
+body {
+  font-family: "Inter", system-ui, sans-serif;
+}
+
 .fab-btn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 56px;
-    height: 56px;
-    font-size: 28px;
-    line-height: 42px;
-    text-align: center;
-    z-index: 1050;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,.2);
+  z-index: 1050;
 }

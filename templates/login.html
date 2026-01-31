@@ -1,10 +1,40 @@
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    
-    <input type="text" name="username" placeholder="Username" required><br>
-    <input type="password" name="password" placeholder="Password" required><br>
-    
-    <button type="submit">Login</button>
-</form>
+{% extends "base/base.html" %}
 
-<a href="{% url 'register' %}">Register Page</a>
+{% block content %}
+<div class="card shadow-sm col-md-4 mx-auto">
+  <div class="card-body">
+    <h4 class="fw-bold text-center mb-3">🔐 Login</h4>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <input
+          type="text"
+          name="username"
+          class="form-control"
+          placeholder="Username"
+          required>
+      </div>
+
+      <div class="mb-3">
+        <input
+          type="password"
+          name="password"
+          class="form-control"
+          placeholder="Password"
+          required>
+      </div>
+
+      <button class="btn btn-primary w-100">Login</button>
+    </form>
+
+    <hr>
+
+    <p class="text-center mb-0">
+      Don’t have an account?
+      <a href="{% url 'register' %}" class="fw-semibold">Register</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

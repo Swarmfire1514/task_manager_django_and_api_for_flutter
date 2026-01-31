@@ -1,134 +1,100 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}{% endblock title %}</title>
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
-      rel="stylesheet"
-    >
-    <link rel="stylesheet" href="{% static "styles.css" %}">
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="{% url "home" %}"><p class="fw-bold mt-3">Task Manager</p></a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'home' %}active{% endif %}"
-                 aria-current="page"
-                 href="{% url 'home' %}">
-                Home
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'task_list' %}active{% endif %}"
-                 href="{% url 'task_list' %}">
-                Tasks
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'category_list' %}active{% endif %}"
-                 href="{% url 'category_list' %}">
-                Categories
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'profile' %}active{% endif %}"
-                 href="{% url 'profile' %}">
-                Profile
-              </a>
-            </li>
-          </ul>
-          <ul class="navbar-nav mb-2 mb-lg-0 me-2">
-            <li class="nav-item d-flex me-2">
-              <a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'activity_log_list' %}active{% endif %}"
-                 href="{% url "activity_log_list" %}" title="Activity Log">
-                <i class="bi bi-clock-history fs-4"></i>
-              </a>
-            </li>
-            <li class="nav-item d-flex">
-              <form method="post" action="{% url 'logout' %}" class="d-inline">
-                {% csrf_token %}
-                <button type="submit"
-                class="nav-link btn btn-link p-0 border-0 mt-2"
-                title="Logout">
-                  <i class="bi bi-box-arrow-right fs-4"></i>
-                </button>
-              </form>
-            </li>
-          </ul>
-          <form class="d-flex" role="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success" type="submit">Search</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Task Manager{% endblock title %}</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+      <i class="bi bi-check2-square me-1"></i> Task Manager
+    </a>
+
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'task_list' %}active{% endif %}" href="{% url 'task_list' %}">
+            Tasks
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'category_list' %}active{% endif %}" href="{% url 'category_list' %}">
+            Categories
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">
+            Profile
+          </a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav align-items-center">
+        <li class="nav-item me-3">
+          <a class="nav-link" href="{% url 'activity_log_list' %}" title="Activity Log">
+            <i class="bi bi-clock-history fs-5"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="btn btn-outline-light btn-sm">
+              <i class="bi bi-box-arrow-right"></i>
+            </button>
           </form>
-        </div>
-      </div>
-    </nav>
-
-    <div class="mx-3">
-        {% block content %}{% endblock content %}
+        </li>
+      </ul>
     </div>
-    
+  </div>
+</nav>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-document.addEventListener('DOMContentLoaded', function() {
+<main class="container my-4">
+  {% block content %}{% endblock content %}
+</main>
 
-  // Task delete modal
-  const taskDeleteModal = document.getElementById('deleteTaskModal');
-  if (taskDeleteModal) {
-    taskDeleteModal.addEventListener('show.bs.modal', function (event) {
-      const button = event.relatedTarget;
-      const taskId = button.getAttribute('data-id');
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-      const form = document.getElementById('deleteTaskForm');
-      form.action = `/tasks/${taskId}/delete/`;
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  const taskModal = document.getElementById('deleteTaskModal');
+  if (taskModal) {
+    taskModal.addEventListener('show.bs.modal', e => {
+      document.getElementById('deleteTaskForm').action =
+        `/tasks/${e.relatedTarget.dataset.id}/delete/`;
     });
   }
 
-  // Category delete modal
-  const categoryDeleteModal = document.getElementById('deleteModal');
-  if (categoryDeleteModal) {
-    categoryDeleteModal.addEventListener('show.bs.modal', function (event) {
-      const button = event.relatedTarget;
-      const categoryId = button.getAttribute('data-id');
-
-      const form = document.getElementById('deleteForm');
-      form.action = `/categories/${categoryId}/delete/`;
+  const catModal = document.getElementById('deleteModal');
+  if (catModal) {
+    catModal.addEventListener('show.bs.modal', e => {
+      document.getElementById('deleteForm').action =
+        `/categories/${e.relatedTarget.dataset.id}/delete/`;
     });
   }
 
 });
 </script>
 
-
-  </body>
+</body>
 </html>

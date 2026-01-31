@@ -1,88 +1,129 @@
 {% extends "base/base.html" %}
-
 {% block content %}
-<h4 class="mb-4">Task List</h4>
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>SN</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>User</th>
-                <th>Category</th>
-                <th>Priority</th>
-                <th>Status</th>
-                <th>Due Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for task in tasks %}
-                <tr>
-                    <td>{{forloop.counter}}</td>
-                    <td>{{task.title}}</td>
-                    <td>{{task.description}}</td>
-                    <td>{{task.user.username}}</td>
-                    <td>{{task.category}}</td>
-                    <td>{{task.priority}}</td>
-                    <td><a href="{% url "task_complete" task.id %}" class="btn btn-sm {% if task.status == "completed" %}btn-primary{% else %}btn-warning{% endif %}">{{task.status}}</a></td>
-                    <td>{{task.due_date|date:"Y-m-d H:i"}}</td>
-                    <td>
-                        <a href="{% url "task_update" task.id %}" class="btn btn-sm btn-warning">Edit</a>
-                        <button
-    type="button"
-    class="btn btn-danger btn-sm"
-    data-bs-toggle="modal"
-    data-bs-target="#deleteTaskModal"
-    data-id="{{ task.id }}">
-    Delete
-</button>
-                    </td>
-                </tr>
-            {% empty %}
-            <tr>
-                <td colspan="8" class="text-center">No tasks found.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
+
+<h4 class="mb-3 fw-bold">✅ Tasks</h4>
+
+<div class="card shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>User</th>
+          <th>Category</th>
+          <th>Priority</th>
+          <th>Status</th>
+          <th>Due</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for task in tasks %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td class="fw-semibold">{{ task.title }}</td>
+          <td>{{ task.user.username }}</td>
+          <td>{{ task.category }}</td>
+          <td>
+                {% if task.priority == "low" %}
+                    <span class="badge bg-success">Low</span>
+                {% elif task.priority == "medium" %}
+                    <span class="badge bg-warning text-dark">Medium</span>
+                {% elif task.priority == "high" %}
+                    <span class="badge bg-danger">High</span>
+                {% else %}
+                    <span class="badge bg-secondary">{{ task.priority }}</span>
+                {% endif %}
+            </td>
+          <td>
+            <a href="{% url 'task_complete' task.id %}"
+               class="btn btn-sm {% if task.status == 'completed' %}btn-success{% else %}btn-outline-secondary{% endif %}">
+              {% if task.status == 'completed' %}
+                <i class="bi bi-check-circle"></i> Completed
+              {% else %}
+                <i class="bi bi-circle"></i> Pending
+              {% endif %}
+            </a>
+          </td>
+          <td>{{ task.due_date|date:"Y-m-d H:i" }}</td>
+          <td class="text-end">
+            <a href="{% url 'task_update' task.id %}"
+               class="btn btn-sm btn-outline-warning">
+              <i class="bi bi-pencil"></i>
+            </a>
+            <button class="btn btn-sm btn-outline-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteTaskModal"
+                    data-id="{{ task.id }}">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" class="text-center text-muted">
+            No tasks found
+          </td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
     </table>
-    <nav>
-        <ul class="pagination justify-content-center">
-            {% if tasks.has_previous %}
-                <li class="page-item">
-                    <a href="?={{categories.previous_page_number}}" class="page_link">Previous</a>
-                </li>
-            {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link">Previous</span>
-                </li>
-            {% endif %}
+  </div>
+</div>
 
-            <li class="page-item active pt-2 mx-1 bg-light">
-                <span class="page_link fw-bold">
-                    Page {{tasks.number}} of {{tasks.paginator.num_pages}}
-                </span>
-            </li>
+<nav class="mt-4">
+  <ul class="pagination justify-content-center mb-0">
 
-            {% if tasks.has_next %}
-                <li class="page-item">
-                    <a href="?page={{tasks.next_page_number}}" class="page-link">Next</a>
-                </li>
-            {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link">Next</span>
-                </li>
-            {% endif %}                
-        </ul>
-    </nav>
-    <!-- Task Delete Confirmation Modal -->
+    {% if tasks.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ tasks.previous_page_number }}">
+          ← Previous
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">← Previous</span>
+      </li>
+    {% endif %}
+
+    <li class="page-item active">
+      <span class="page-link">
+        Page {{ tasks.number }} of {{ tasks.paginator.num_pages }}
+      </span>
+    </li>
+
+    {% if tasks.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ tasks.next_page_number }}">
+          Next →
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Next →</span>
+      </li>
+    {% endif %}
+
+  </ul>
+</nav>
+
+<a href="{% url 'task_create' %}" class="fab-btn btn btn-primary">
+  <i class="bi bi-plus"></i>
+</a>
+
+<!-- Delete Task Modal -->
 <div class="modal fade" id="deleteTaskModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
 
       <div class="modal-header bg-danger text-white">
         <h5 class="modal-title">Confirm Delete</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        <button type="button"
+                class="btn-close btn-close-white"
+                data-bs-dismiss="modal"></button>
       </div>
 
       <div class="modal-body">
@@ -91,7 +132,7 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">
           Cancel
         </button>
 
@@ -107,7 +148,4 @@
   </div>
 </div>
 
-    <a href="{% url "task_create" %}" class="btn btn-primary rounded-circle shadow fab-btn" title="Add Task">
-        <i class="bi bi-plus"></i>
-    </a>
-{% endblock content %}
+{% endblock %}
