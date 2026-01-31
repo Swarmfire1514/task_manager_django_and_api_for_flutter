@@ -1,43 +1,43 @@
 {% extends "base/authbase.html" %}
-
-{% block title %}Login{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block content %}
-<div class="card shadow-sm col-md-4 mx-auto">
+<div class="card shadow auth-card col-md-4 mx-auto">
   <div class="card-body">
-    <h4 class="fw-bold text-center mb-3">🧾 Register</h4>
+
+    <h4 class="fw-bold text-center mb-3">📝 Register</h4>
+
+    <!-- NON-FIELD ERRORS -->
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
 
     <form method="post">
       {% csrf_token %}
 
-      <div class="mb-3">
-        <input
-          type="text"
-          name="username"
-          class="form-control"
-          placeholder="Username"
-          required>
-      </div>
+      {% for field in form %}
+        <div class="mb-3">
+          <input
+            type="{{ field.field.widget.input_type }}"
+            name="{{ field.name }}"
+            class="form-control {% if field.errors %}is-invalid{% endif %}"
+            placeholder="{{ field.label }}"
+            value="{{ field.value|default:'' }}"
+            {% if field.field.required %}required{% endif %}>
 
-      <div class="mb-3">
-        <input
-          type="email"
-          name="email"
-          class="form-control"
-          placeholder="Email"
-          required>
-      </div>
+          {% if field.errors %}
+            <div class="invalid-feedback">
+              {{ field.errors.0 }}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
 
-      <div class="mb-3">
-        <input
-          type="password"
-          name="password"
-          class="form-control"
-          placeholder="Password"
-          required>
-      </div>
-
-      <button class="btn btn-success w-100">Create Account</button>
+      <button class="btn btn-primary w-100">
+        Create Account
+      </button>
     </form>
 
     <hr>
@@ -46,6 +46,7 @@
       Already have an account?
       <a href="{% url 'login' %}" class="fw-semibold">Login</a>
     </p>
+
   </div>
 </div>
 {% endblock %}
