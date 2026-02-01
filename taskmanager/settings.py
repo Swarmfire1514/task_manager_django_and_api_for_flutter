@@ -32,7 +32,7 @@ DEBUG = os.getenv("DEBUG") == "True"
 
 ALLOWED_HOSTS = [
     'localhost',
-    '192.168.100.9',
+    'https://task-manager-with-django.onrender.com',
     '127.0.0.1',
     '.onrender.com'
 ]

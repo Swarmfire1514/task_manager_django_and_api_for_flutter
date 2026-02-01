@@ -387,3 +387,56 @@ Jan 23, 2026
 - Activity logs are more readable and accurately reflect user actions.
 - Codebase is more stable, analyzer-clean, and aligned with Flutter best practices.
 - Gained deeper hands-on experience with real-world Flutter + DRF integration, async UI patterns, and null-safe model design.
+
+Jan 31, 2026
+Picked up the project to make a live demo in renderr.com and use it for flutter as well without local server
+
+# Progress:
+- Added priority-based color indicators (Low / Medium / High) for tasks.
+- Implemented delete confirmation modals for tasks and categories.
+- Configured PostgreSQL locally and migrated from SQLite.
+- Set up .env-based configuration for database credentials and sensitive settings.
+- Fixed Django signal logic to correctly track task status changes (created, updated, completed, deleted).
+
+# Process:
+-Refactored Django signals (pre_save, post_save, post_delete) to:
+  - Track old task state
+  - Prevent incorrect activity log entries when during SQLite → PostgreSQL migration
+- Performed SQLite → PostgreSQL migration using dumpdata and loaddata.
+- Debugged fixture loading issues caused by signal execution during migrations.
+- Verified PostgreSQL connectivity and schema integrity after migration.
+
+# Outcomes:
+- Database is successfully migrated to PostgreSQL.
+- Backend logic is more robust and production-aligned.
+- Improved understanding of Django signals and data migration pitfalls.
+
+Feb 1,2026
+# Progress:
+- Designed a modern auth UI (authbase.html) with gradient theming and branding.
+- Unified main app UI by aligning base.html color theme with auth pages while preserving navbar.
+- Added polished, dismissible alert messages for auth feedback.
+- Integrated JWT authentication using SimpleJWT for API access.
+- Deployed Django backend to Render.com.
+- Created and connected a Render PostgreSQL database to the web service.
+- Connected Flutter frontend to the deployed backend API.
+- Resolved Flutter Android build failures related to OneDrive file locking.
+
+# Process:
+- Created a separate auth layout to keep login/register pages minimal and focused.
+- Enhanced UX using Bootstrap animations and dismissible alerts.
+- Configured Render Web Service:
+  - Gunicorn setup
+  - Environment variables
+  - Static files with WhiteNoise
+- Linked Render Postgres using environment variables instead of hardcoded values.
+- Identified correct production API base URL for Flutter integration.
+- Diagnosed Gradle build failures caused by OneDrive syncing file locks.
+- Fixed Flutter build issues by moving the project outside OneDrive and cleaning the build cache.
+
+# Outcomes:
+- The UI is visually refined, intuitive, and easy to navigate.
+- Backend is live and stable on Render with PostgreSQL.
+- Flutter app successfully communicates with the production API.
+- Deployment and build issues are resolved and documented.
+- Gained solid real-world experience with full-stack deployment and mobile-backend integration.
