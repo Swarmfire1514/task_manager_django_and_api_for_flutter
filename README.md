@@ -4,6 +4,7 @@ A full-stack task management system built with Django (backend + web) and Flutte
 This project allows users to manage categories and tasks, track status and priority, and maintain an activity log of actions. It supports role-based access with user and admin roles.
 
 Live Website: [https://task-manager-with-django.onrender.com](https://task-manager-with-django.onrender.com)
+
 API Documentation: [https://documenter.getpostman.com/view/44780520/2sBXVhDqmY](https://documenter.getpostman.com/view/44780520/2sBXVhDqmY)
 
 # Features
@@ -108,6 +109,7 @@ If testing on a real device with local backend, enable android:usesCleartextTraf
 
 # Live Links
 Live Website: [https://task-manager-with-django.onrender.com](https://task-manager-with-django.onrender.com)
+
 API Documentation: [https://documenter.getpostman.com/view/44780520/2sBXVhDqmY](https://documenter.getpostman.com/view/44780520/2sBXVhDqmY)
 
 # License
