@@ -53,44 +53,45 @@ API Documentation: [https://documenter.getpostman.com/view/44780520/2sBXVhDqmY](
 - Fields: user, task, action, timestamp
 
 # Installation (Django Backend)
-- git clone https://github.com/Swarmfire1514/task_manager_django_and_api_for_flutter
-- cd task_manager_django_and_api_for_flutter
+- `git clone https://github.com/Swarmfire1514/task_manager_django_and_api_for_flutter`
+- `cd task_manager_django_and_api_for_flutter`
 
 **Create and activate a virtual environment:**
--  Windows: venv\Scripts\activate
--  macOS/Linux : source venv/bin/activate
+-  Windows: `venv\Scripts\activate`
+-  macOS/Linux : `source venv/bin/activate`
 
 **Install dependencies:**
-- pip install -r requirements.txt
+- `pip install -r requirements.txt`
 
 **Apply migrations:**
-- python manage.py makemigrations
-- python manage.py migrate
+- `python manage.py makemigrations`
+- `python manage.py migrate`
 
 **Create a superuser (admin access):**
-- python manage.py createsuperuser
+- `python manage.py createsuperuser`
 
 **Run the development server:**
-- python manage.py runserver
--Web app: http://127.0.0.1:8000/
--Admin panel: http://127.0.0.1:8000/admin/
+- `python manage.py runserver`
+-Web app: `http://127.0.0.1:8000/`
+
+-Admin panel: `http://127.0.0.1:8000/admin`
 
 # Flutter Mobile App Setup
 
 **Navigate to the Flutter project folder:**
-- cd taskmanager_app
+- `cd taskmanager_app`
 
 **Install Flutter dependencies:**
-- flutter pub get
+- `flutter pub get`
 
 **Update API base URL (if running backend locally or production):**
 - Create an env file and set up the API_BASE_URL
 set:
-API_BASE_URL = 'http://127.0.0.1:8000/api/'; //local
-API_BASE_URL = 'https://task-manager-with-django.onrender.com' //production
+`API_BASE_URL = 'http://127.0.0.1:8000/api/'; //local`
+`API_BASE_URL = 'https://task-manager-with-django.onrender.com' //production`
 
 **Run the Flutter app:**
-- flutter run
+- `flutter run`
 Make sure your device/emulator is connected.
 If testing on a real device with local backend, enable android:usesCleartextTraffic="true" in AndroidManifest.xml.
 
