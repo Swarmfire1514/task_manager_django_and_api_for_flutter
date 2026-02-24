@@ -72,8 +72,8 @@ API Documentation: [https://documenter.getpostman.com/view/44780520/2sBXVhDqmY](
 
 **Run the development server:**
 - `python manage.py runserver`
--Web app: `http://127.0.0.1:8000/`
 
+-Web app: `http://127.0.0.1:8000/`
 -Admin panel: `http://127.0.0.1:8000/admin`
 
 # Flutter Mobile App Setup
