@@ -7,27 +7,27 @@ Live Website: [https://task-manager-with-django.onrender.com](https://task-manag
 API Documentation: [https://documenter.getpostman.com/view/44780520/2sBXVhDqmY](https://documenter.getpostman.com/view/44780520/2sBXVhDqmY)
 
 # Features
-# 🌐 Web App (Django + Bootstrap)
+**🌐 Web App (Django + Bootstrap)**
 - Responsive UI with Bootstrap
 - User Authentication (Login/Register/Logout)
 - Task & Category CRUD
 - Activity Logs using Django signals
 - Ownership-based access control
 
-# 🔹 Backend API (Django REST Framework)
+**🔹 Backend API (Django REST Framework)**
 - JWT Authentication (Access/Refresh + Blacklisting)
 - Paginated APIs with PATCH support
 - SQLite → PostgreSQL migration
 - Deployed on Render
 
-# 📱 Flutter Mobile App (pre-release, tested on real devices)
+**📱 Flutter Mobile App (pre-release, tested on real devices)**
 - Connected to live production API
 - Persistent login (SharedPreferences)
 - Bottom navigation: Home, Tasks, Categories, Activity Log, Profile
 - Full Task CRUD + category linking
 - Pagination & async state management
 
-# ✅ Other Features
+**✅ Other Features**
 - Automatic timestamps (created_at, updated_at)
 - Role-based access (user/admin)
 - ActivityLog tracks all user actions
