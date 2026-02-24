@@ -46,8 +46,9 @@ class _CategoryPageWidgetState extends State<CategoryPageWidget> {
       }
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Error: $e")));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: $e")));
     }
 
     setState(() => _isLoading = false);
@@ -68,15 +69,17 @@ class _CategoryPageWidgetState extends State<CategoryPageWidget> {
       if (response.statusCode == 201) {
         await loadCategories();
         if (!mounted) return;
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Category created")));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("Category created")));
       } else {
         throw Exception("Failed to create category");
       }
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Error: $e")));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: $e")));
     }
   }
 
@@ -95,14 +98,16 @@ class _CategoryPageWidgetState extends State<CategoryPageWidget> {
       if (response.statusCode == 200) {
         await loadCategories();
         if (!mounted) return;
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Category updated")));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("Category updated")));
       } else {
         throw Exception("Failed to update category");
       }
     } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Error: $e")));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: $e")));
     }
   }
 
@@ -120,14 +125,16 @@ class _CategoryPageWidgetState extends State<CategoryPageWidget> {
       if (response.statusCode == 204) {
         await loadCategories();
         if (!mounted) return;
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Category deleted")));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("Category deleted")));
       } else {
         throw Exception("Failed to delete category");
       }
     } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Error: $e")));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: $e")));
     }
   }
 
@@ -139,7 +146,8 @@ class _CategoryPageWidgetState extends State<CategoryPageWidget> {
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       builder: (_) {
         return Padding(
           padding: EdgeInsets.only(
@@ -154,7 +162,9 @@ class _CategoryPageWidgetState extends State<CategoryPageWidget> {
               Text(
                 category == null ? "Create Category" : "Edit Category",
                 style: const TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.bold),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 16),
               TextField(
@@ -188,34 +198,50 @@ class _CategoryPageWidgetState extends State<CategoryPageWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              padding: const EdgeInsets.all(12),
-              itemCount: categories.length,
-              itemBuilder: (context, index) {
-                final category = categories[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(vertical: 6),
-                  child: ListTile(
-                    title: Text(category.name),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: () => openEditCategory(category: category),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () => deleteCategory(category.id),
-                        ),
-                      ],
+      body: RefreshIndicator(
+        onRefresh: () async => await loadCategories(),
+        child: _isLoading && categories.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : categories.isEmpty
+            ? ListView(
+                children: const [
+                  SizedBox(height: 200),
+                  Center(
+                    child: Text(
+                      "No categories to show",
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                   ),
-                );
-              },
-            ),
+                ],
+              )
+            : ListView.builder(
+                padding: const EdgeInsets.all(12),
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  final category = categories[index];
+                  return Card(
+                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    child: ListTile(
+                      title: Text(category.name),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () =>
+                                openEditCategory(category: category),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () => deleteCategory(category.id),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => openEditCategory(),
         child: const Icon(Icons.add),

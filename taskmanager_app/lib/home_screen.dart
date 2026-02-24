@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final String logoutUrl = dotenv.env['LOGOUT_URL']!;
   final List<String> _titles = [
-    'Home',
+    'Task Manager',
     'Tasks',
     'Categories',
     'Activity Log',

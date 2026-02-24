@@ -54,8 +54,9 @@ class _ActivityLogWidgetState extends State<ActivityLogWidget> {
       });
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Error: $e")));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: $e")));
     }
 
     setState(() => _isLoading = false);
@@ -63,42 +64,71 @@ class _ActivityLogWidgetState extends State<ActivityLogWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(12),
-      itemCount: logs.length + (nextPageUrl != null ? 1 : 0),
-      itemBuilder: (context, index) {
-        if (index < logs.length) {
-          final log = logs[index];
+    if (_isLoading && logs.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
-          // Build the dynamic description
-          final targetType = log.category == null ? "task" : "category";
-          final targetTitle =
-              log.categoryTitle ?? log.taskTitle ?? "No title";
+    if (logs.isEmpty) {
+      return RefreshIndicator(
+        onRefresh: () async {
+          currentPage = 1;
+          logs.clear();
+          await loadLogs();
+        },
+        child: ListView(
+          children: const [
+            SizedBox(height: 200),
+            Center(
+              child: Text(
+                "No activity logs to show",
+                style: TextStyle(fontSize: 16, color: Colors.grey),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
 
-          final description =
-              "${log.username} has ${log.action} the $targetType with title '$targetTitle'";
+    return RefreshIndicator(
+      onRefresh: () async {
+        currentPage = 1;
+        logs.clear();
+        await loadLogs();
+      },
+      child: ListView.builder(
+        padding: const EdgeInsets.all(12),
+        itemCount: logs.length + (nextPageUrl != null ? 1 : 0),
+        itemBuilder: (context, index) {
+          if (index < logs.length) {
+            final log = logs[index];
+            final targetType = log.category == null ? "task" : "category";
+            final targetTitle =
+                log.categoryTitle ?? log.taskTitle ?? "No title";
+            final description =
+                "${log.username} has ${log.action} the $targetType with title '$targetTitle'";
 
-          return Card(
-            margin: const EdgeInsets.symmetric(vertical: 6),
-            child: ListTile(
-              title: Text(description),
-              subtitle:
-                  Text(DateFormat.yMMMd().add_jm().format(log.timestamp)),
+            return Card(
+              margin: const EdgeInsets.symmetric(vertical: 6),
+              child: ListTile(
+                title: Text(description),
+                subtitle: Text(
+                  DateFormat.yMMMd().add_jm().format(log.timestamp),
+                ),
+              ),
+            );
+          }
+
+          return Padding(
+            padding: const EdgeInsets.all(12),
+            child: ElevatedButton(
+              onPressed: loadLogs,
+              child: _isLoading
+                  ? const CircularProgressIndicator(color: Colors.white)
+                  : const Text("Load More"),
             ),
           );
-        }
-
-        // Load More Button
-        return Padding(
-          padding: const EdgeInsets.all(12),
-          child: ElevatedButton(
-            onPressed: loadLogs,
-            child: _isLoading
-                ? const CircularProgressIndicator(color: Colors.white)
-                : const Text("Load More"),
-          ),
-        );
-      },
+        },
+      ),
     );
   }
 }

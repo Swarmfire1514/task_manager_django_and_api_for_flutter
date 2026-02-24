@@ -83,8 +83,9 @@ class _TaskPageWidgetState extends State<TaskPageWidget> {
       });
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Error: $e")));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: $e")));
     }
 
     setState(() => _isLoading = false);
@@ -218,8 +219,7 @@ class _TaskPageWidgetState extends State<TaskPageWidget> {
                   TextField(
                     controller: descriptionCtrl,
                     maxLines: null,
-                    decoration:
-                        const InputDecoration(labelText: "Description"),
+                    decoration: const InputDecoration(labelText: "Description"),
                   ),
                   const SizedBox(height: 12),
 
@@ -303,7 +303,8 @@ class _TaskPageWidgetState extends State<TaskPageWidget> {
                               builder: (_) => AlertDialog(
                                 title: const Text("Delete Task"),
                                 content: const Text(
-                                    "Are you sure you want to delete this task?"),
+                                  "Are you sure you want to delete this task?",
+                                ),
                                 actions: [
                                   TextButton(
                                     onPressed: () =>
@@ -384,88 +385,113 @@ class _TaskPageWidgetState extends State<TaskPageWidget> {
         },
         child: const Icon(Icons.add),
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(12),
-        itemCount: tasks.length + (nextPageUrl != null ? 1 : 0),
-        itemBuilder: (context, index) {
-          if (index < tasks.length) {
-            final task = tasks[index];
-
-            return Card(
-              margin: const EdgeInsets.symmetric(vertical: 6),
-              child: ListTile(
-                title: Text(
-                  task.title,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Status: ${task.status}"),
-                    Text("Priority: ${task.priority}"),
-                    Text("Due: ${DateFormat.yMMMd().format(task.dueDate)}"),
-                    Text("Category: ${task.categoryName}"),
-                    Text(
-                      task.description.length > 50
-                          ? "${task.description.substring(0, 50)}..."
-                          : task.description,
-                    ),
-                  ],
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () => openEditTask(task),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () async {
-                        final confirmed = await showDialog<bool>(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text("Delete Task"),
-                            content: const Text(
-                                "Are you sure you want to delete this task?"),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, false),
-                                child: const Text("Cancel"),
-                              ),
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, true),
-                                child: const Text("Delete"),
-                              ),
-                            ],
-                          ),
-                        );
-                        if (confirmed == true) {
-                          await deleteTask(task.id);
-                          if (!mounted) return;
-                          setState(() {
-                            tasks.remove(task);
-                          });
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-
-          // Load More Button
-          return Padding(
-            padding: const EdgeInsets.all(12),
-            child: ElevatedButton(
-              onPressed: loadTasks,
-              child: _isLoading
-                  ? const CircularProgressIndicator(color: Colors.white)
-                  : const Text("Load More"),
-            ),
-          );
+      body: RefreshIndicator(
+        onRefresh: () async {
+          currentPage = 1;
+          tasks.clear();
+          await loadTasks();
         },
+        child: _isLoading && tasks.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : tasks.isEmpty
+            ? ListView(
+                children: const [
+                  SizedBox(height: 200),
+                  Center(
+                    child: Text(
+                      "No tasks to show",
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                    ),
+                  ),
+                ],
+              )
+            : ListView.builder(
+                padding: const EdgeInsets.all(12),
+                itemCount: tasks.length + (nextPageUrl != null ? 1 : 0),
+                itemBuilder: (context, index) {
+                  if (index < tasks.length) {
+                    final task = tasks[index];
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 6),
+                      child: ListTile(
+                        title: Text(
+                          task.title,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Status: ${task.status}"),
+                            Text("Priority: ${task.priority}"),
+                            Text(
+                              "Due: ${DateFormat.yMMMd().format(task.dueDate)}",
+                            ),
+                            Text("Category: ${task.categoryName}"),
+                            Text(
+                              task.description.length > 50
+                                  ? "${task.description.substring(0, 50)}..."
+                                  : task.description,
+                            ),
+                          ],
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () => openEditTask(task),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () async {
+                                final confirmed = await showDialog<bool>(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text("Delete Task"),
+                                    content: const Text(
+                                      "Are you sure you want to delete this task?",
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, false),
+                                        child: const Text("Cancel"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, true),
+                                        child: const Text("Delete"),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                                if (confirmed == true) {
+                                  await deleteTask(task.id);
+                                  if (!mounted) return;
+                                  setState(() {
+                                    tasks.remove(task);
+                                  });
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+
+                  // Load More Button
+                  return Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: ElevatedButton(
+                      onPressed: loadTasks,
+                      child: _isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text("Load More"),
+                    ),
+                  );
+                },
+              ),
       ),
     );
   }

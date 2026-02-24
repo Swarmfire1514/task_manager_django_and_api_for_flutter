@@ -77,7 +77,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(16), // fixed
+        padding: const EdgeInsets.all(16), 
         child: Center(
           child: _isLoading
               ? const CircularProgressIndicator()
