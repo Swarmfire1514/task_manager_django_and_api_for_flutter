@@ -64,7 +64,7 @@ API Documentation: [https://documenter.getpostman.com/view/44780520/2sBXVhDqmY](
 - `pip install -r requirements.txt`
 
 **Apply migrations:**
-`python manage.py makemigrations`
+- `python manage.py makemigrations`
 - `python manage.py migrate`
 
 **Create a superuser (admin access):**
